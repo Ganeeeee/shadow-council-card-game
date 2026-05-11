@@ -115,11 +115,81 @@ You must deduce your own true faction through clues, then play cards strategical
 ### Local Development
 
 ```bash
-git clone https://github.com/yourusername/shadow-council-card-game.git
+git clone https://github.com/Ganeeeee/shadow-council-card-game.git
 cd shadow-council-card-game
 # Use Live Server (VS Code) or:
 python -m http.server 8000
 # Open http://localhost:8000
+---
+
+## 📜 Copyright & License / 版权与许可证
+
+### ⚖️ License / 许可证
+
+This project is licensed under the **MIT License** - see below for details.
+
+本项目采用 **MIT 许可证** - 详情见下方。
+MIT License
+
+Copyright (c) 2026 Ganeeeee
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+text
+
+### 🛡️ Copyright / 版权声明
+
+**Copyright © 2026 Ganeeeee. All Rights Reserved.**
+
+**Shadow Council / 暗影议会** — All game design, code, visual assets, and original concepts are the intellectual property of Ganeeeee.
+
+**《暗影议会》** — 所有游戏设计、代码、视觉资产及原创概念均为 Ganeeeee 的知识产权。
+
+### 📌 Terms of Use / 使用条款
+
+| Type | Allowed | Not Allowed |
+|------|---------|-------------|
+| **Personal Use / 个人使用** | ✅ Free to play, learn, modify | - |
+| **Commercial Use / 商业使用** | ⚠️ Requires permission | ❌ Unauthorized resale |
+| **Redistribution / 重新分发** | ✅ With credit and link | ❌ Claiming as your own |
+| **Code Modification / 修改代码** | ✅ For learning | ❌ Removing copyright notice |
+
+### 🔗 Credit Requirements / 署名要求
+
+If you use this code or design for reference, please include:
+Game Reference: Shadow Council
+Original Developer: Ganeeeee
+Source: https://github.com/Ganeeeee/shadow-council-card-game
+
+text
+
+### 📧 Contact for Commercial Use / 商业使用联系
+
+For commercial licensing or cooperation inquiries, please contact:
+
+**GitHub**: [@Ganeeeee](https://github.com/Ganeeeee)
+
+---
+
+*Unauthorized commercial use, resale, or claiming as original work is prohibited.*
+
+*未经授权的商业使用、转售或声称原创行为均被禁止。*
 
 
 
