@@ -1,4 +1,20 @@
-<img width="2478" height="1453" alt="image" src="https://github.com/user-attachments/assets/14c06016-9813-4633-a6ac-fac277b76ea9" /># shadow-council-card-game
+## 📸 Screenshots / 游戏截图
+
+### Title Screen / 标题界面
+![Title Screen](https://github.com/user-attachments/assets/94f5223c-5f24-463b-9b09-9ba48efaea1c)
+
+### Identity Reveal / 身份揭示界面
+![Identity Screen](https://github.com/user-attachments/assets/f243047d-2470-4400-90e8-15cc085c2d72)
+
+### Gameplay / 游戏主界面
+![Gameplay](https://github.com/user-attachments/assets/d8764fc3-2f75-4652-b71a-fc11cdea285e)
+
+### Guess Phase / 猜身份阶段
+![Guess Phase](https://github.com/user-attachments/assets/5de6ec05-3694-4b20-bfa4-288118eaf68a)
+
+### End Game / 游戏结束界面
+![End Game](https://github.com/user-attachments/assets/14c06016-9813-4633-a6ac-fac277b76ea9)
+
 A social deduction card game where you don't know your own identity. Playable in browser with AI opponents. Built with vanilla HTML/CSS/JS.
 # 🎭 Shadow Council / 暗影议会
 
@@ -97,12 +113,6 @@ cd shadow-council-card-game
 python -m http.server 8000
 # Open http://localhost:8000
 
-###📸 Screenshots / 游戏截图
-
-<img width="2477" height="1457" alt="image" src="https://github.com/user-attachments/assets/94f5223c-5f24-463b-9b09-9ba48efaea1c" />
-<img width="2477" height="1457" alt="image" src="https://github.com/user-attachments/assets/f243047d-2470-4400-90e8-15cc085c2d72" />
-<img width="2478" height="1453" alt="image" src="https://github.com/user-attachments/assets/d8764fc3-2f75-4652-b71a-fc11cdea285e" />
-<img width="2480" height="1455" alt="image" src="https://github.com/user-attachments/assets/5de6ec05-3694-4b20-bfa4-288118eaf68a" />
 
 
 
