@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow Council — Game Manual</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a12;--card:#16162a;--card-hover:#1e1e3a;
+  --gold:#d4a843;--red:#c44040;--green:#40a060;--blue:#4080c0;
+  --purple:#8060c0;--cyan:#40a0a0;--text:#e0e0e0;--dim:#888;
+  --military:#c44040;--economy:#d4a843;--strategy:#4080c0;--shadow:#8060c0;
+}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+.wrap{max-width:1100px;margin:0 auto;padding:30px 20px 60px}
+
+/* Hero */
+.hero{text-align:center;padding:60px 20px 40px;position:relative}
+.hero h1{font-size:3em;background:linear-gradient(135deg,var(--gold),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.hero .sub{color:var(--dim);font-size:1.15em}
+.hero .tagline{margin-top:20px;color:var(--text);font-size:1.05em;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.9}
+
+/* Mind map */
+.mindmap{position:relative;padding:20px 0}
+.mindmap .center-node{width:220px;margin:0 auto 40px;background:linear-gradient(135deg,#1a1a3a,#0f0f2a);border:2px solid var(--gold);border-radius:50%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;position:relative;z-index:2}
+.mindmap .center-node .icon{font-size:2.5em}
+.mindmap .center-node .label{color:var(--gold);font-size:1.1em;font-weight:bold;margin-top:4px}
+
+/* Branch */
+.branch{margin:30px 0;border-left:3px solid var(--dim);padding-left:24px;position:relative}
+.branch::before{content:'';position:absolute;left:-8px;top:0;width:13px;height:13px;border-radius:50%;border:3px solid var(--gold);background:var(--bg)}
+.branch.gold::before{border-color:var(--gold)}.branch.red::before{border-color:var(--red)}
+.branch.blue::before{border-color:var(--blue)}.branch.purple::before{border-color:var(--purple)}
+.branch.cyan::before{border-color:var(--cyan)}.branch.green::before{border-color:var(--green)}
+
+.branch h2{font-size:1.4em;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.branch h2 .emoji{font-size:1.3em}
+.branch.gold h2{color:var(--gold)}.branch.red h2{color:var(--red)}
+.branch.blue h2{color:var(--blue)}.branch.purple h2{color:var(--purple)}
+.branch.cyan h2{color:var(--cyan)}.branch.green h2{color:var(--green)}
+
+/* Sub branch */
+.sub-branch{margin:16px 0 16px 8px;padding:14px 18px;background:var(--card);border-radius:10px;border:1px solid #222}
+.sub-branch h3{font-size:1.05em;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.sub-branch ul{list-style:none;padding:0}
+.sub-branch li{padding:4px 0;font-size:.92em;color:var(--dim);padding-left:18px;position:relative}
+.sub-branch li::before{content:'▸';position:absolute;left:0;color:var(--gold)}
+.sub-branch li strong{color:var(--text)}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:.88em}
+.tbl th{padding:8px 10px;text-align:left;border-bottom:2px solid #333;font-weight:600}
+.tbl td{padding:7px 10px;border-bottom:1px solid #1a1a2a}
+.tbl tr:hover td{background:rgba(212,168,67,.04)}
+.tbl .suit-tag{display:inline-block;padding:1px 8px;border-radius:4px;font-size:.82em;font-weight:600}
+
+/* Cards grid */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:10px 0}
+.card-item{background:var(--card);border-radius:8px;padding:10px 14px;border-left:3px solid var(--dim);font-size:.88em}
+.card-item.military{border-color:var(--military)}.card-item.economy{border-color:var(--economy)}
+.card-item.strategy{border-color:var(--strategy)}.card-item.shadow{border-color:var(--shadow)}
+.card-item .cn{font-weight:bold;margin-bottom:2px}
+.card-item .ce{color:var(--dim);font-size:.85em}
+
+/* Flowchart */
+.flow{display:flex;flex-direction:column;align-items:center;gap:0;margin:20px 0}
+.flow-step{background:var(--card);border:2px solid #333;border-radius:12px;padding:12px 24px;text-align:center;min-width:260px;position:relative}
+.flow-step.gold{border-color:var(--gold)}.flow-step.cyan{border-color:var(--cyan)}
+.flow-step.purple{border-color:var(--purple)}.flow-step.red{border-color:var(--red)}
+.flow-step.green{border-color:var(--green)}.flow-step.blue{border-color:var(--blue)}
+.flow-step .fs-title{font-weight:bold;font-size:1em}
+.flow-step .fs-desc{color:var(--dim);font-size:.82em;margin-top:2px}
+.flow-arrow{color:var(--dim);font-size:1.4em;padding:4px 0}
+
+/* Highlight boxes */
+.hbox{padding:14px 18px;border-radius:10px;margin:10px 0;font-size:.92em;line-height:1.7}
+.hbox.warn{background:#1a1510;border:1px solid #553a10;color:#e8a040}
+.hbox.info{background:#101a20;border:1px solid #104050;color:var(--cyan)}
+.hbox.danger{background:#1a1010;border:1px solid #501010;color:#ff6060}
+.hbox.tip{background:#101a10;border:1px solid #105020;color:var(--green)}
+
+/* Emoji tag */
+.etag{display:inline-block;padding:2px 10px;border-radius:6px;font-size:.85em;margin:2px;font-weight:600}
+.etag.mil{background:rgba(196,64,64,.15);color:var(--military)}
+.etag.eco{background:rgba(212,168,67,.15);color:var(--economy)}
+.etag.str{background:rgba(64,128,192,.15);color:var(--strategy)}
+.etag.sha{background:rgba(128,96,192,.15);color:var(--shadow)}
+.etag.ord{background:rgba(64,128,192,.15);color:var(--blue)}
+.etag.cha{background:rgba(196,64,64,.15);color:var(--red)}
+
+/* Camp colors */
+.camp-order{color:var(--blue)}.camp-chaos{color:var(--red)}
+
+/* Responsive */
+@media(max-width:600px){
+  .hero h1{font-size:2em}
+  .cards-grid{grid-template-columns:1fr}
+  .flow-step{min-width:auto;width:100%}
+}
+
+/* Nav */
+.toc{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:6px}
+.toc a{display:block;width:10px;height:10px;border-radius:50%;background:#333;transition:all .2s;border:2px solid transparent}
+.toc a:hover,.toc a.active{background:var(--gold);border-color:var(--gold);transform:scale(1.3)}
+@media(max-width:900px){.toc{display:none}}
+
+/* Game Icon System */
+.gicon{width:1em;height:1em;display:inline-block;vertical-align:-0.12em;margin:0 .1em;flex-shrink:0;filter:drop-shadow(0 0 2px rgba(212,168,67,.15));transition:filter .2s,transform .2s}
+.gicon:hover{filter:drop-shadow(0 0 6px rgba(212,168,67,.4));transform:scale(1.15)}
+h1 .gicon{width:1.2em;height:1.2em;filter:drop-shadow(0 0 8px rgba(212,168,67,.5))}
+h2 .gicon{width:1.2em;height:1.2em}
+h3 .gicon{width:1.05em;height:1.05em}
+.etag .gicon{width:.95em;height:.95em}
+.card-item .gicon{width:.9em;height:.9em}
+.flow-step .gicon{width:1.1em;height:1.1em}
+.hbox .gicon{width:1em;height:1em}
+td .gicon{width:1em;height:1em}
+li .gicon{width:.95em;height:.95em}
+
+</style>
+</head>
+<body>
+
+<div class="toc" id="toc"></div>
+
+<div class="wrap">
+
+<!-- Hero -->
+<div class="hero">
+  <h1><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M3 8c0-3 4-6 9-6s9 3 9 6-4 6-9 6-9-3-9-6z" stroke="#d4a843" stroke-width="1.5"/><circle cx="8" cy="7" r="2" stroke="#d4a843" stroke-width="1"/><circle cx="16" cy="7" r="2" stroke="#d4a843" stroke-width="1"/><path d="M9 11c1 1 5 1 6 0" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><path d="M3 8c0 3 4 6 9 6s9-3 9-6" stroke="#d4a843" stroke-width="1.5"/><path d="M6 14l-3 8h5l1-4m10 4h5l-3-8-1 4" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/></svg> Shadow Council</h1>
+  <div class="sub">Shadow Council — Game Manual v4</div>
+  <div class="tagline">
+    Each player has both a <strong>public identity</strong> and a <strong>shadow identity</strong>.<br>
+    Your shadow identity is <strong>chosen by others</strong> — you have no idea what it is.<br>
+    Through deduction, investigation, and reflection, discover your true faction and survive to the end.
+  </div>
+</div>
+
+<!-- ===== 1. Core Concepts ===== -->
+<div class="branch gold" id="sec-core">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#d4a843" stroke-width="1.5" opacity=".3"/><circle cx="12" cy="12" r="7" stroke="#d4a843" stroke-width="1.5" opacity=".5"/><circle cx="12" cy="12" r="4" stroke="#d4a843" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#d4a843"/></svg></span> Core Concepts</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="5" stroke="#d4a843" stroke-width="1.5"/><path d="M12 12l8 8" stroke="#d4a843" stroke-width="2" stroke-linecap="round"/><path d="M17 17l2 2m-4 0l2 2" stroke="#d4a843" stroke-width="2" stroke-linecap="round"/></svg> Dual Identity System</h3>
+    <ul>
+      <li><strong>Public Identity</strong> — visible to all, determines your <strong>passive ability</strong></li>
+      <li><strong>Shadow Identity</strong> — only unknown to yourself, determines your <strong>true faction</strong> (decides victory)</li>
+      <li>Shadow identity is <strong>randomly assigned</strong> — only you don't know who you are</li>
+      <li>When a player is eliminated, their shadow identity is <strong>revealed</strong></li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2h8v6a4 4 0 01-8 0V2z" stroke="#d4a843" stroke-width="1.5"/><path d="M8 4H5a1 1 0 00-1 1v1a3 3 0 003 3h1m8-5h3a1 1 0 011 1v1a3 3 0 01-3 3h-1" stroke="#d4a843" stroke-width="1.5"/><path d="M12 14v4m-3 0h6" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><path d="M7 20h10" stroke="#d4a843" stroke-width="2" stroke-linecap="round"/></svg> Victory Conditions</h3>
+    <ul>
+      <li>When the game ends, compare the surviving count of each <strong>shadow faction</strong></li>
+      <li><span class="camp-order">Order Survivors > Chaos Survivors → Order Faction Wins <svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#c44040"/><circle cx="5" cy="19" r="1" fill="#c44040"/></svg></span></li>
+      <li><span class="camp-chaos">Chaos Survivors > Order Survivors → Chaos Faction Wins <svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg></span></li>
+      <li>Equal → Draw <svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><path d="M5 7l7-4 7 4" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M5 7l-2 8h4l-2-8m14 0l2 8h-4l2-8" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><circle cx="3" cy="15" r="1.5" stroke="#d4a843" stroke-width="1"/><circle cx="21" cy="15" r="1.5" stroke="#d4a843" stroke-width="1"/><path d="M8 21h8" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/></svg></li>
+      <li>The faction with higher zone totals gets <strong>+1 effective survivor</strong> (affects final outcome)</li>
+      <li><strong>Passives don't trigger in Round 1</strong> — to prevent opening zone changes from revealing faction clues. Triggers normally from Round 2 onward</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="8" stroke="#c44040" stroke-width="1.5"/><circle cx="9" cy="9" r="1.5" fill="#c44040" opacity=".8"/><circle cx="15" cy="9" r="1.5" fill="#c44040" opacity=".8"/><path d="M10 14l1 2 1-1 1 1 1-2" stroke="#c44040" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 18h8" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/><path d="M9 19.5h2m2 0h2" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg> Elimination Conditions</h3>
+    <ul>
+      <li><strong>Gold ≤ 0 and empty hand</strong> → immediate elimination</li>
+      <li><strong>Gold reaches zero</strong> → forced to discard 1 card each Shadow Phase (accelerates death)</li>
+      <li><strong>Wrong guess</strong> on shadow identity → you are eliminated</li>
+      <li>Successfully <strong>dark assassinated</strong> → immediate elimination</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 2. Game Flow ===== -->
+<div class="branch cyan" id="sec-flow">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0114.93-4M20 12a8 8 0 01-14.93 4" stroke="#40a0a0" stroke-width="1.5" stroke-linecap="round"/><path d="M20 4v4h-4M4 20v-4h4" stroke="#40a0a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Game Flow</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#d4a843" stroke-width="1.5"/><path d="M9 3V1h6v2" stroke="#d4a843" stroke-width="1.5"/><line x1="9" y1="9" x2="15" y2="9" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="13" x2="15" y2="13" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="17" x2="12" y2="17" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/></svg> Game Parameters</h3>
+    <ul>
+      <li><strong>Players:</strong> 4–6 (can mix human + AI)</li>
+      <li><strong>Total Rounds:</strong> 5</li>
+      <li><strong>Starting Resources:</strong> 4 gold + 6 cards each</li>
+      <li><strong>Actions Per Turn:</strong> 2 (playing 1 card = 1 action)</li>
+    </ul>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step gold">
+      <div class="fs-title"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9z" stroke="#d4a843" stroke-width="1.5"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/></svg> Event Phase</div>
+      <div class="fs-desc">Draw a random global event affecting all players</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step blue">
+      <div class="fs-title"><svg class="gicon" viewBox="0 0 24 24" fill="none"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10" stroke="#4080c0" stroke-width="1.5" stroke-linejoin="round" fill="#4080c0" fill-opacity=".15"/></svg> Passive Trigger</div>
+      <div class="fs-desc">All surviving characters' passive abilities trigger automatically (skipped in Round 1, triggers from Round 2)</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step cyan">
+      <div class="fs-title"><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="12" height="17" rx="2" stroke="#c44040" stroke-width="1.5" transform="rotate(-5 9 10)"/><rect x="9" y="5" width="12" height="17" rx="2" stroke="#c44040" stroke-width="1.5" fill="var(--bg)" transform="rotate(5 15 13)"/><path d="M15 10l-1 4h2l-1 4" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg> Action Phase</div>
+      <div class="fs-desc">Take turns in order, 2 actions each (play card / end turn)</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step purple">
+      <div class="fs-title"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Shadow Phase</div>
+      <div class="fs-desc">Zero-gold players discard → zone settlement → zone milestone rewards</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step red">
+      <div class="fs-title"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#d4a843" stroke-width="1.5" opacity=".3"/><circle cx="12" cy="12" r="7" stroke="#d4a843" stroke-width="1.5" opacity=".5"/><circle cx="12" cy="12" r="4" stroke="#d4a843" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#d4a843"/></svg> Guess Phase</div>
+      <div class="fs-desc">Each player draws 2 cards → human guess → AI has 50% chance to guess (max 1)<br><em style="color:var(--dim);font-size:.88em">4-player game: guessing only every 2 rounds (even rounds)</em></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step green">
+      <div class="fs-title"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M17 2l4 4-4 4" stroke="#40a060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V9a4 4 0 014-4h14" stroke="#40a060" stroke-width="1.5" stroke-linecap="round"/><path d="M7 22l-4-4 4-4" stroke="#40a060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 13v2a4 4 0 01-4 4H3" stroke="#40a060" stroke-width="1.5" stroke-linecap="round"/></svg> Next Round / Game End</div>
+      <div class="fs-desc">After 5 rounds, or when a faction is wiped out, or only 1 player remains</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3. Character ===== -->
+<div class="branch blue" id="sec-chars">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#4080c0" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#4080c0" stroke-width="1.5" stroke-linecap="round"/></svg></span> Character System</h2>
+  <div class="sub-branch">
+    <h3><span class="camp-order"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#4080c0"/><circle cx="5" cy="19" r="1" fill="#4080c0"/></svg> Order Faction</span></h3>
+    <table class="tbl">
+      <tr><th>Character</th><th>Passive Ability (auto-triggers each round from Round 2)</th></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M14 2l8 8-10 10-2-2L20 8l-6-6z" stroke="#c44040" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 14l-4 4" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="19" r="2" stroke="#c44040" stroke-width="1.5"/></svg> <strong>General</strong></td><td>Military Zone +1</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#d4a843" stroke-width="1.5"/><path d="M12 6v12m-3-8h6a2 2 0 010 4H9m0 0h7" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Merchant</strong></td><td>Gain 1 gold</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="7" stroke="#8060c0" stroke-width="1.5"/><ellipse cx="12" cy="10" rx="3" ry="7" stroke="#8060c0" stroke-width="1" opacity=".5"/><path d="M12 17v3m-4 0h8" stroke="#8060c0" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="10" r="2" fill="#8060c0" opacity=".2"/></svg> <strong>Prophet</strong></td><td>Draw 1 extra card</td></tr>
+    </table>
+  </div>
+  <div class="sub-branch">
+    <h3><span class="camp-chaos"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Chaos Faction</span></h3>
+    <table class="tbl">
+      <tr><th>Character</th><th>Passive Ability (auto-triggers each round from Round 2)</th></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 2L8 6l-4-1 2 5-5 3 5 3-2 5 4-1 4 4 4-4 4 1-2-5 5-3-5-3 2-5-4 1L12 2z" stroke="#c44040" stroke-width="1.5" stroke-linejoin="round" fill="#c44040" fill-opacity=".1"/><circle cx="10" cy="11" r="1.5" fill="#c44040"/><circle cx="14" cy="11" r="1.5" fill="#c44040"/><path d="M10 15l1.5 1.5L14 15" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg> <strong>Assassin</strong></td><td>Discard 1 card to make any 1 player discard 1</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M9 3h6v6l4 8.5a2 2 0 01-1.8 2.5H6.8a2 2 0 01-1.8-2.5L9 9V3z" stroke="#d4a843" stroke-width="1.5"/><path d="M9 3h6" stroke="#d4a843" stroke-width="2" stroke-linecap="round"/><path d="M7 16h10" stroke="#d4a843" stroke-width="1" opacity=".4"/><circle cx="11" cy="17" r="1" fill="#d4a843" opacity=".5"/><circle cx="14" cy="15" r=".7" fill="#d4a843" opacity=".5"/></svg> <strong>Alchemist</strong></td><td>Economy Zone +1</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="#8060c0" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#8060c0" stroke-width="1.5"/><circle cx="12" cy="12" r="1" fill="#8060c0"/></svg> <strong>Spy</strong></td><td>View 1 random surviving player's shadow identity keyword</td></tr>
+    </table>
+  </div>
+  <div class="hbox warn">
+    <svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 20h20L12 2z" stroke="#e8a040" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5" stroke="#e8a040" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="#e8a040"/></svg>️ <strong>Public Identity ≠ Shadow Identity!</strong> Your public identity is just a "mask" that gives you a passive ability. Your true faction is determined by your shadow identity, which may be completely different. For example, your public identity could be General (Order) while your shadow identity is Spy (Chaos).
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#d4a843" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/></svg> Shadow Keywords</h3>
+    <p style="color:var(--dim);font-size:.85em;margin-bottom:10px">Peek, Poison and similar methods reveal a <strong>random keyword</strong> of the target, used to deduce their shadow identity:</p>
+    <table class="tbl">
+      <tr><th>Shadow Identity</th><th>Keywords</th></tr>
+      <tr><td><span style="color:var(--military)">🗡 General</span></td><td>Blade, Sword, Halberd, Armor</td></tr>
+      <tr><td><span style="color:var(--economy)">💎 Merchant</span></td><td>Scale, Gold, Coin, Ledger</td></tr>
+      <tr><td><span style="color:var(--strategy)">📜 Prophet</span></td><td>Eye, Star, Moon, Dream</td></tr>
+      <tr><td><span style="color:var(--military)">💀 Assassin</span></td><td>Poison, Dagger, Shadow, Night</td></tr>
+      <tr><td><span style="color:var(--shadow)">🧪 Alchemist</span></td><td>Bottle, Furnace, Flame, Mercury</td></tr>
+      <tr><td><span style="color:var(--cyan)">👁 Spy</span></td><td>Mask, Mirror, Veil, Wind</td></tr>
+    </table>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 4v16M4 8l8-1m-8 9l8-1" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/><path d="M16 4l4 16m-4-8h4" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/></svg> Identity Assignment Rules</h3>
+    <ul>
+      <li>4 players: randomly pick 4 from 6 identities, ensuring <strong>2 Order + 2 Chaos</strong></li>
+      <li>5 players: randomly pick 5 from 6, ensuring <strong>3 Order + 2 Chaos</strong> or <strong>2 Order + 3 Chaos</strong> (50% each)</li>
+      <li>6 players: use all 6 identities (3 Order + 3 Chaos)</li>
+      <li>Both public and shadow identities are <strong>unique</strong> — one per player</li>
+      <li>Shadow identity is <strong>randomly assigned</strong>, independent of public identity, one per player</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 4. Hand ===== -->
+<div class="branch red" id="sec-cards">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="12" height="17" rx="2" stroke="#c44040" stroke-width="1.5" transform="rotate(-5 9 10)"/><rect x="9" y="5" width="12" height="17" rx="2" stroke="#c44040" stroke-width="1.5" fill="var(--bg)" transform="rotate(5 15 13)"/><path d="M15 10l-1 4h2l-1 4" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg></span> Card System</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="14" height="18" rx="2" stroke="#c44040" stroke-width="1.5"/><rect x="8" y="3" width="14" height="18" rx="2" stroke="#c44040" stroke-width="1.5" fill="var(--bg)"/><path d="M15 10v4m-2-2h4" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg> Four Suits</h3>
+    <span class="etag mil"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#c44040"/><circle cx="5" cy="19" r="1" fill="#c44040"/></svg> Military</span>
+    <span class="etag eco"><svg class="gicon" viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,9 12,22 4,9" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 9h16" stroke="#d4a843" stroke-width="1"/><path d="M8 9l4 13 4-13" stroke="#d4a843" stroke-width="1" opacity=".5"/></svg> Economy</span>
+    <span class="etag str"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2" stroke="#4080c0" stroke-width="1.5"/><rect x="8" y="2" width="8" height="20" rx="1" stroke="#4080c0" stroke-width="1.5"/><line x1="10" y1="7" x2="14" y2="7" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="10" x2="14" y2="10" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="13" x2="13" y2="13" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/></svg> Strategy</span>
+    <span class="etag sha"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Shadow</span>
+    <p style="color:var(--dim);font-size:.88em;margin-top:8px">Each card type has 2 copies in the deck (64 total). Playing a card costs 1 action, 2 actions per turn.</p>
+  </div>
+
+  <div class="sub-branch">
+    <h3><span class="etag mil"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#c44040"/><circle cx="5" cy="19" r="1" fill="#c44040"/></svg> Military Cards</span> — Military Zone</h3>
+    <div class="cards-grid">
+      <div class="card-item military"><div class="cn">Rally</div><div class="ce">Military Zone +3</div></div>
+      <div class="card-item military"><div class="cn">Assassinate</div><div class="ce">Target discards 1 card</div></div>
+      <div class="card-item military"><div class="cn">Siege</div><div class="ce">Military Zone +2, target skips next turn</div></div>
+      <div class="card-item military"><div class="cn">Guard</div><div class="ce">Block 1 attack (until next round)</div></div>
+      <div class="card-item military"><div class="cn">Conscript</div><div class="ce">Draw 2 cards</div></div>
+      <div class="card-item military"><div class="cn">Charge</div><div class="ce">Military Zone +4</div></div>
+      <div class="card-item military"><div class="cn">Scout</div><div class="ce">Reveal 1 card suit from target</div></div>
+      <div class="card-item military"><div class="cn">Mutiny</div><div class="ce">Military Zone +2，Economy Zone -1</div></div>
+    </div>
+  </div>
+
+  <div class="sub-branch">
+    <h3><span class="etag eco"><svg class="gicon" viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,9 12,22 4,9" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 9h16" stroke="#d4a843" stroke-width="1"/><path d="M8 9l4 13 4-13" stroke="#d4a843" stroke-width="1" opacity=".5"/></svg> Economy Cards</span> — Economy Zone</h3>
+    <div class="cards-grid">
+      <div class="card-item economy"><div class="cn">Tax</div><div class="ce">Gain 2 gold</div></div>
+      <div class="card-item economy"><div class="cn">Bribe</div><div class="ce">Steal 1 gold from target</div></div>
+      <div class="card-item economy"><div class="cn">Monopoly</div><div class="ce">Economy Zone +3</div></div>
+      <div class="card-item economy"><div class="cn">Invest</div><div class="ce">Economy Zone +2，Gain 1 gold</div></div>
+      <div class="card-item economy"><div class="cn">Bankrupt</div><div class="ce">Target loses 2 gold</div></div>
+      <div class="card-item economy"><div class="cn">Trade</div><div class="ce">Both you and target draw 1 card</div></div>
+      <div class="card-item economy"><div class="cn">Bounty</div><div class="ce">Gain 3 gold</div></div>
+      <div class="card-item economy"><div class="cn">Thrift</div><div class="ce">Economy Zone +1, draw 1 card</div></div>
+    </div>
+  </div>
+
+  <div class="sub-branch">
+    <h3><span class="etag str"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2" stroke="#4080c0" stroke-width="1.5"/><rect x="8" y="2" width="8" height="20" rx="1" stroke="#4080c0" stroke-width="1.5"/><line x1="10" y1="7" x2="14" y2="7" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="10" x2="14" y2="10" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="13" x2="13" y2="13" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/></svg> Strategy Cards</span> — Strategy Zone</h3>
+    <div class="cards-grid">
+      <div class="card-item strategy"><div class="cn">Peek</div><div class="ce">View 1 player's Shadow Keyword (only you see)</div></div>
+      <div class="card-item strategy"><div class="cn">Forge</div><div class="ce">Fake playing any suit, +2 to that zone</div></div>
+      <div class="card-item strategy"><div class="cn">Propaganda</div><div class="ce">Shadow Alley +2</div></div>
+      <div class="card-item strategy"><div class="cn">Prophecy</div><div class="ce">Guess 1 player's Shadow Identity (correct: +2 Gold, wrong: -1 Gold)</div></div>
+      <div class="card-item strategy"><div class="cn">Sow Discord</div><div class="ce">2 targets each discard 1 card</div></div>
+      <div class="card-item strategy"><div class="cn">Insight</div><div class="ce">See all suits in target's hand</div></div>
+      <div class="card-item strategy"><div class="cn">Scheme</div><div class="ce">Strategy Zone +3</div></div>
+      <div class="card-item strategy"><div class="cn">Secret Order</div><div class="ce">Strategy Zone +2, draw 1 card</div></div>
+      <div class="card-item strategy"><div class="cn">Reflect</div><div class="ce">Gain 1 clue about your own Shadow Identity</div></div>
+    </div>
+  </div>
+
+  <div class="sub-branch">
+    <h3><span class="etag sha"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Shadow Cards</span> — Shadow Alley</h3>
+    <div class="cards-grid">
+      <div class="card-item shadow"><div class="cn">Disguise</div><div class="ce">Swap public identity with target (reverts after 1 round)</div></div>
+      <div class="card-item shadow"><div class="cn">Poison</div><div class="ce">View 1 player's Shadow Keyword (only you see)</div></div>
+      <div class="card-item shadow"><div class="cn">Chaos</div><div class="ce">All discard 1, then all draw 1</div></div>
+      <div class="card-item shadow"><div class="cn">Dark Assassinate</div><div class="ce">Attempt to eliminate 1 player (requires no Guard; ignores Guard during Dark Night)</div></div>
+      <div class="card-item shadow"><div class="cn">Eavesdrop</div><div class="ce">View 1 player's Shadow Identity (only you see)</div></div>
+      <div class="card-item shadow"><div class="cn">Dark Alley</div><div class="ce">Shadow Alley +3</div></div>
+      <div class="card-item shadow"><div class="cn">Conspiracy</div><div class="ce">Shadow Alley +2，Gain 1 gold</div></div>
+      <div class="card-item shadow"><div class="cn">Brainwash</div><div class="ce">Swap target's public & shadow identity</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 5. Zone System ===== -->
+<div class="branch purple" id="sec-zones">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="4" y="12" width="4" height="8" rx="1" stroke="#8060c0" stroke-width="1.5"/><rect x="10" y="6" width="4" height="14" rx="1" stroke="#8060c0" stroke-width="1.5"/><rect x="16" y="9" width="4" height="11" rx="1" stroke="#8060c0" stroke-width="1.5"/><line x1="2" y1="20" x2="22" y2="20" stroke="#8060c0" stroke-width="1.5"/></svg></span> Zones & Gold System</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z" stroke="#40a0a0" stroke-width="1.5"/><path d="M9 3v15m6-12v15" stroke="#40a0a0" stroke-width="1" opacity=".5"/></svg> Four Zones</h3>
+    <table class="tbl">
+      <tr><th>Zone</th><th>Matching Suit</th><th>Allegiance</th></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#c44040"/><circle cx="5" cy="19" r="1" fill="#c44040"/></svg> Military Zone</td><td><span class="etag mil">Military Cards</span></td><td class="camp-order">Order</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,9 12,22 4,9" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 9h16" stroke="#d4a843" stroke-width="1"/><path d="M8 9l4 13 4-13" stroke="#d4a843" stroke-width="1" opacity=".5"/></svg> Economy Zone</td><td><span class="etag eco">Economy Cards</span></td><td class="camp-order">Order</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2" stroke="#4080c0" stroke-width="1.5"/><rect x="8" y="2" width="8" height="20" rx="1" stroke="#4080c0" stroke-width="1.5"/><line x1="10" y1="7" x2="14" y2="7" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="10" x2="14" y2="10" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="13" x2="13" y2="13" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/></svg> Strategy Zone</td><td><span class="etag str">Strategy Cards</span></td><td class="camp-chaos">Chaos</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Shadow Alley</td><td><span class="etag sha">Shadow Cards</span></td><td class="camp-chaos">Chaos</td></tr>
+    </table>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10" stroke="#4080c0" stroke-width="1.5" stroke-linejoin="round" fill="#4080c0" fill-opacity=".15"/></svg> Zone Effects</h3>
+    <ul>
+      <li><strong>Each Shadow Phase:</strong> compare Order zones (Military+Economy) vs Chaos zones (Strategy+Shadow Alley)</li>
+      <li>Leading side → <strong>all surviving players</strong> get rewards (faction not revealed):
+        <ul>
+          <li>Order zone lead → all +1 gold</li>
+          <li>Chaos zone lead → all draw 1 card</li>
+        </ul>
+      </li>
+      <li><strong>Milestone Rewards:</strong>
+        <ul>
+          <li>Economy Zone every <strong>5 points</strong> → all +1 Gold</li>
+          <li>Strategy Zone every <strong>5 points</strong> → all draw 1 card</li>
+        </ul>
+      </li>
+      <li><strong>Game End:</strong> faction with higher zone total gets <strong>+1 effective survivor</strong> (affects victory)</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#d4a843" stroke-width="1.5"/><path d="M12 6v12m-3-8h6a2 2 0 010 4H9m0 0h7" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Gold Effects</h3>
+    <ul>
+      <li>Start with <strong>4 gold each</strong></li>
+      <li><strong>Gold reaches zero</strong> → forced to discard 1 card each Shadow Phase</li>
+      <li><strong>Gold ≤ 0 and empty hand</strong> → immediate elimination</li>
+      <li>Gold can be gained via Economy Cards, or stolen/deducted</li>
+      <li>Correct prophecy: +2 gold, wrong: -1 gold</li>
+      <li>The side with more gold has advantage in a draw</li>
+      <li><strong>Spend Gold to view Shadow Keyword:</strong> price increases per round — Round 1: 3 Gold, +2 per round (R2: 5, R3: 7, R4: 9, R5: 11)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 6. Event System ===== -->
+<div class="branch green" id="sec-events">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="#40a060" stroke-width="1.5"/><circle cx="8" cy="8" r="1.5" fill="#40a060"/><circle cx="16" cy="8" r="1.5" fill="#40a060"/><circle cx="12" cy="12" r="1.5" fill="#40a060"/><circle cx="8" cy="16" r="1.5" fill="#40a060"/><circle cx="16" cy="16" r="1.5" fill="#40a060"/></svg></span> Event System</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2" stroke="#4080c0" stroke-width="1.5"/><rect x="8" y="2" width="8" height="20" rx="1" stroke="#4080c0" stroke-width="1.5"/><line x1="10" y1="7" x2="14" y2="7" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="10" x2="14" y2="10" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="13" x2="13" y2="13" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/></svg> Event List (1 random per round)</h3>
+    <table class="tbl">
+      <tr><th>Event</th><th>Effect</th></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2" stroke="#4080c0" stroke-width="1.5"/><rect x="8" y="2" width="8" height="20" rx="1" stroke="#4080c0" stroke-width="1.5"/><line x1="10" y1="7" x2="14" y2="7" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="10" x2="14" y2="10" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="13" x2="13" y2="13" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/></svg> Tax Collector</td><td>All players lose 1 Gold (or Military Zone -1 if broke)</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Dark Alley Riot</td><td>Shadow Cards have double effect this round</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M4 20L12 4l8 16" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 20h16" stroke="#d4a843" stroke-width="2" stroke-linecap="round"/><path d="M12 4v16" stroke="#d4a843" stroke-width="1" opacity=".3"/><path d="M8 20l4-12 4 12" stroke="#d4a843" stroke-width="1" opacity=".3"/></svg> Diplomatic Banquet</td><td>Military Cards cannot be used this round</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#c44040"/><circle cx="5" cy="19" r="1" fill="#c44040"/></svg> Border Conflict</td><td>Military Zone auto +2</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,9 12,22 4,9" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 9h16" stroke="#d4a843" stroke-width="1"/><path d="M8 9l4 13 4-13" stroke="#d4a843" stroke-width="1" opacity=".5"/></svg> Market Boom</td><td>All players gain 1 Gold</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="7" stroke="#8060c0" stroke-width="1.5"/><ellipse cx="12" cy="10" rx="3" ry="7" stroke="#8060c0" stroke-width="1" opacity=".5"/><path d="M12 17v3m-4 0h8" stroke="#8060c0" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="10" r="2" fill="#8060c0" opacity=".2"/></svg> Divine Oracle</td><td>Each player gets 1 free Peek</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M9 3h6v6l4 8.5a2 2 0 01-1.8 2.5H6.8a2 2 0 01-1.8-2.5L9 9V3z" stroke="#d4a843" stroke-width="1.5"/><path d="M9 3h6" stroke="#d4a843" stroke-width="2" stroke-linecap="round"/><path d="M7 16h10" stroke="#d4a843" stroke-width="1" opacity=".4"/><circle cx="11" cy="17" r="1" fill="#d4a843" opacity=".5"/><circle cx="14" cy="15" r=".7" fill="#d4a843" opacity=".5"/></svg> Plague</td><td>Player with most cards discards 2</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M14 2l8 8-10 10-2-2L20 8l-6-6z" stroke="#c44040" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 14l-4 4" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="19" r="2" stroke="#c44040" stroke-width="1.5"/></svg> Arms Race</td><td>Military Cards +1 effect this round</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#d4a843" stroke-width="1.5"/><path d="M12 6v12m-3-8h6a2 2 0 010 4H9m0 0h7" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Donation Season</td><td>All +1 Gold, Economy Zone +1</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Dark Night</td><td>Dark Assassinate/Poison ignores Guard</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="11" rx="7" ry="8" stroke="#4080c0" stroke-width="1.5"/><ellipse cx="12" cy="11" rx="4" ry="5" stroke="#4080c0" stroke-width="1" opacity=".4"/><path d="M12 19v3" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/><path d="M8 22h8" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/></svg> Memory Fragments</td><td>Each player gets 1 free Reflect</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><path d="M5 7l7-4 7 4" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M5 7l-2 8h4l-2-8m14 0l2 8h-4l2-8" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><circle cx="3" cy="15" r="1.5" stroke="#d4a843" stroke-width="1"/><circle cx="21" cy="15" r="1.5" stroke="#d4a843" stroke-width="1"/><path d="M8 21h8" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/></svg> Judgment Day</td><td>Player with fewest cards discards all, draws 3</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== 7. Guess System ===== -->
+<div class="branch red" id="sec-guess">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#d4a843" stroke-width="1.5" opacity=".3"/><circle cx="12" cy="12" r="7" stroke="#d4a843" stroke-width="1.5" opacity=".5"/><circle cx="12" cy="12" r="4" stroke="#d4a843" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#d4a843"/></svg></span> Guess System</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#4080c0" stroke-width="1.5"/><path d="M16.5 16.5L21 21" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="11" r="3" stroke="#4080c0" stroke-width="1" opacity=".4"/></svg> Guess Rules</h3>
+    <ul>
+      <li>In the <strong>guess phase</strong> at the end of each round, human players guess normally (can skip)</li>
+      <li><strong>AI Limit:</strong> each round, 50% chance 1 AI gets to guess, 50% chance no AI participates</li>
+      <li><strong>4-player game:</strong> guessing triggers every 2 rounds (Rounds 2, 4, 6), odd rounds skipped</li>
+      <li>Choose a player + guess their Shadow Identity</li>
+      <li><strong>Correct → target is eliminated</strong></li>
+      <li><strong>Wrong → you are eliminated</strong></li>
+      <li>Eliminated players' Shadow Identity is revealed, usable for deduction</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 2c-2 0-3.5 1-4 3-.5-1-1.5-2-3-2-2 0-3 2-2 4 .5 1 1 1.5 1 2H2v4h2c0 1-.5 2-1 3-1 2 0 4 2 4 1.5 0 2.5-1 3-2 .5 2 2 3 4 3s3.5-1 4-3c.5 1 1.5 2 3 2 2 0 3-2 2-4-.5-1-1-2-1-3h2V9h-2c0-.5.5-1 1-2 1-2 0-4-2-4-1.5 0-2.5 1-3 2-.5-2-2-3-4-3z" stroke="#8060c0" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v8" stroke="#8060c0" stroke-width="1" opacity=".4"/></svg> Deduction Clue Sources</h3>
+    <ul>
+      <li><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2" stroke="#4080c0" stroke-width="1.5"/><rect x="8" y="2" width="8" height="20" rx="1" stroke="#4080c0" stroke-width="1.5"/><line x1="10" y1="7" x2="14" y2="7" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="10" x2="14" y2="10" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="13" x2="13" y2="13" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/></svg> <strong>Strategy Cards"Peek"</strong> — View target's Shadow <strong>Keyword</strong></li>
+      <li><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> <strong>Shadow Card "Poison"</strong> — same as above</li>
+      <li><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> <strong>Shadow Card "Eavesdrop"</strong> — directly view target's <strong>Shadow Identity</strong></li>
+      <li><svg class="gicon" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="11" rx="7" ry="8" stroke="#4080c0" stroke-width="1.5"/><ellipse cx="12" cy="11" rx="4" ry="5" stroke="#4080c0" stroke-width="1" opacity=".4"/><path d="M12 19v3" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/><path d="M8 22h8" stroke="#4080c0" stroke-width="2" stroke-linecap="round"/></svg> <strong>Strategy Card "Reflect"</strong> — gain a clue about <strong>your own</strong> Shadow Identity</li>
+      <li><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="#8060c0" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#8060c0" stroke-width="1.5"/><circle cx="12" cy="12" r="1" fill="#8060c0"/></svg> <strong>Spy Passive</strong> — view 1 random player's Shadow Keyword each round</li>
+      <li><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="8" stroke="#c44040" stroke-width="1.5"/><circle cx="9" cy="9" r="1.5" fill="#c44040" opacity=".8"/><circle cx="15" cy="9" r="1.5" fill="#c44040" opacity=".8"/><path d="M10 14l1 2 1-1 1 1 1-2" stroke="#c44040" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 18h8" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/><path d="M9 19.5h2m2 0h2" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg> <strong>Eliminated Players</strong> — Shadow Identity revealed, use elimination logic</li>
+    </ul>
+  </div>
+  <div class="hbox tip">
+    <svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M9 18h6m-5 3h4" stroke="#40a060" stroke-width="1.5" stroke-linecap="round"/><path d="M12 2a7 7 0 00-4 12.7V17a1 1 0 001 1h6a1 1 0 001-1v-2.3A7 7 0 0012 2z" stroke="#40a060" stroke-width="1.5"/><circle cx="12" cy="10" r="2" fill="#40a060" opacity=".3"/></svg> <strong>Deduction Tips:</strong> Shadow identities are randomly assigned. Collect clues through Reflect, Peek, and Eavesdrop. Combine with eliminated players' revealed identities to use elimination logic and narrow down possibilities.
+  </div>
+</div>
+
+<!-- ===== 8. Special Mechanics ===== -->
+<div class="branch cyan" id="sec-special">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#40a0a0" stroke-width="1.5"/><path d="M12 1v3m0 16v3M4.22 4.22l2.12 2.12m11.32 11.32l2.12 2.12M1 12h3m16 0h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="#40a0a0" stroke-width="1.5" stroke-linecap="round"/></svg></span> Special Mechanics</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M3 8c0-3 4-6 9-6s9 3 9 6-4 6-9 6-9-3-9-6z" stroke="#8060c0" stroke-width="1.5"/><circle cx="8" cy="7" r="2" stroke="#8060c0" stroke-width="1"/><circle cx="16" cy="7" r="2" stroke="#8060c0" stroke-width="1"/><path d="M9 11c1 1 5 1 6 0" stroke="#8060c0" stroke-width="1.5" stroke-linecap="round"/><path d="M3 8c0 3 4 6 9 6s9-3 9-6" stroke="#8060c0" stroke-width="1.5"/><path d="M6 14l-3 8h5l1-4m10 4h5l-3-8-1 4" stroke="#8060c0" stroke-width="1.5" stroke-linejoin="round"/></svg> Disguise</h3>
+    <ul>
+      <li>Shadow Card "Disguise" swaps your <strong>public identity</strong> with the target</li>
+      <li>Lasts <strong>1 round</strong>, automatically reverts at the start of the next round</li>
+      <li>During the swap, both players' passive abilities follow the public identity</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 2c-2 0-3.5 1-4 3-.5-1-1.5-2-3-2-2 0-3 2-2 4 .5 1 1 1.5 1 2H2v4h2c0 1-.5 2-1 3-1 2 0 4 2 4 1.5 0 2.5-1 3-2 .5 2 2 3 4 3s3.5-1 4-3c.5 1 1.5 2 3 2 2 0 3-2 2-4-.5-1-1-2-1-3h2V9h-2c0-.5.5-1 1-2 1-2 0-4-2-4-1.5 0-2.5 1-3 2-.5-2-2-3-4-3z" stroke="#8060c0" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v8" stroke="#8060c0" stroke-width="1" opacity=".4"/></svg> Brainwash</h3>
+    <ul>
+      <li>Shadow Card "Brainwash" swaps the target's <strong>public & shadow identity</strong></li>
+      <li>This is a <strong>permanent</strong> effect，directly changes faction allegiance</li>
+      <li>A brainwashed player may suddenly find they've switched factions</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5.5-3.8 10-8 11-4.2-1-8-5.5-8-11V6l8-4z" stroke="#4080c0" stroke-width="1.5"/><path d="M12 6l5 2.5v4c0 3.5-2.5 6.5-5 7-2.5-.5-5-3.5-5-7V8.5L12 6z" stroke="#4080c0" stroke-width="1" opacity=".3"/></svg> Guard</h3>
+    <ul>
+      <li>Military Card "Guard" makes you immune to 1 attack</li>
+      <li>Lasts until the start of the next round</li>
+      <li><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> During <strong>Dark Night</strong> event，Dark Assassinate/Poison ignores Guard</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M6 2h12v5a6 6 0 01-3 5.2V17a3 3 0 003 3H6a3 3 0 003-3v-4.8A6 6 0 006 7V2z" stroke="#40a0a0" stroke-width="1.5"/><path d="M6 2h12M6 22h12" stroke="#40a0a0" stroke-width="2" stroke-linecap="round"/><path d="M8 12h8" stroke="#40a0a0" stroke-width="1" opacity=".3"/></svg> Siege</h3>
+    <ul>
+      <li>Military Card "Siege" makes the target skip their next turn</li>
+      <li>Also Military Zone +2</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 9. Resource Summary ===== -->
+<div class="branch gold" id="sec-summary">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#d4a843" stroke-width="1.5"/><path d="M9 3V1h6v2" stroke="#d4a843" stroke-width="1.5"/><line x1="9" y1="9" x2="15" y2="9" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="13" x2="15" y2="13" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="17" x2="12" y2="17" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/></svg></span> Resource Summary</h2>
+  <div class="sub-branch">
+    <table class="tbl">
+      <tr><th>Resource</th><th>Initial</th><th>How to Obtain</th><th>Effect</th></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#d4a843" stroke-width="1.5"/><path d="M12 6v12m-3-8h6a2 2 0 010 4H9m0 0h7" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Gold</td><td>4</td><td>Economy cards, passives, zone rewards</td><td>Zero → discard, 0 gold + 0 cards = elim, prophecy ±</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="12" height="17" rx="2" stroke="#c44040" stroke-width="1.5" transform="rotate(-5 9 10)"/><rect x="9" y="5" width="12" height="17" rx="2" stroke="#c44040" stroke-width="1.5" fill="var(--bg)" transform="rotate(5 15 13)"/><path d="M15 10l-1 4h2l-1 4" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg> Hand</td><td>6</td><td>Draw 2/round + Conscript/Trade etc.</td><td>Playing produces effects, 0 cards + 0 gold = elim</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#c44040"/><circle cx="5" cy="19" r="1" fill="#c44040"/></svg> Military Zone</td><td>0</td><td>Military Cards</td><td>Order zone value, affects victory</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,9 12,22 4,9" stroke="#d4a843" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 9h16" stroke="#d4a843" stroke-width="1"/><path d="M8 9l4 13 4-13" stroke="#d4a843" stroke-width="1" opacity=".5"/></svg> Economy Zone</td><td>0</td><td>Economy Cards</td><td>Order zone value, +1 gold every 5 pts</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M8 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2" stroke="#4080c0" stroke-width="1.5"/><rect x="8" y="2" width="8" height="20" rx="1" stroke="#4080c0" stroke-width="1.5"/><line x1="10" y1="7" x2="14" y2="7" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="10" x2="14" y2="10" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="13" x2="13" y2="13" stroke="#4080c0" stroke-width="1" stroke-linecap="round"/></svg> Strategy Zone</td><td>0</td><td>Strategy Cards</td><td>Chaos zone value, draw 1 every 5 pts</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8060c0" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18c-3 0-5.5-4-5.5-9S9 3 12 3z" fill="#8060c0" fill-opacity=".3"/></svg> Shadow Alley</td><td>0</td><td>Shadow Cards</td><td>Chaos zone value, affects victory</td></tr>
+      <tr><td><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5.5-3.8 10-8 11-4.2-1-8-5.5-8-11V6l8-4z" stroke="#4080c0" stroke-width="1.5"/><path d="M12 6l5 2.5v4c0 3.5-2.5 6.5-5 7-2.5-.5-5-3.5-5-7V8.5L12 6z" stroke="#4080c0" stroke-width="1" opacity=".3"/></svg> Guard</td><td>None</td><td>Military Card "Guard"</td><td>Immune to 1 attack</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== 10. Strategy Tips ===== -->
+<div class="branch green" id="sec-tips">
+  <h2><span class="emoji"><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M9 18h6m-5 3h4" stroke="#40a060" stroke-width="1.5" stroke-linecap="round"/><path d="M12 2a7 7 0 00-4 12.7V17a1 1 0 001 1h6a1 1 0 001-1v-2.3A7 7 0 0012 2z" stroke="#40a060" stroke-width="1.5"/><circle cx="12" cy="10" r="2" fill="#40a060" opacity=".3"/></svg></span> Strategy Tips</h2>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#d4a843" stroke-width="1.5" opacity=".3"/><circle cx="12" cy="12" r="7" stroke="#d4a843" stroke-width="1.5" opacity=".5"/><circle cx="12" cy="12" r="4" stroke="#d4a843" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#d4a843"/></svg> Find Your Faction</h3>
+    <ul>
+      <li>Prioritize using <strong>Reflect</strong> cards to learn about yourself</li>
+      <li>Spy passive auto-Peeks 1 player's Keyword each round, watch the log</li>
+      <li>Use eliminated players' Shadow Identity for elimination logic</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M3 5l14 14" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><path d="M12 12l-2 2" stroke="#c44040" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="5" r="1" fill="#c44040"/><circle cx="5" cy="19" r="1" fill="#c44040"/></svg> Zone Strategy</h3>
+    <ul>
+      <li>If you know you're Order Faction, play Military/Economy Cards to push zones</li>
+      <li>If you know you're Chaos Faction, play Strategy/Shadow Cards</li>
+      <li>When unsure of faction, use Strategy Cards to investigate before committing</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#d4a843" stroke-width="1.5" opacity=".3"/><circle cx="12" cy="12" r="7" stroke="#d4a843" stroke-width="1.5" opacity=".5"/><circle cx="12" cy="12" r="4" stroke="#d4a843" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#d4a843"/></svg> Guess Strategy</h3>
+    <ul>
+      <li>Only guess when confident — wrong guess kills you</li>
+      <li>Revealed Shadow Identities can be excluded to narrow possibilities</li>
+      <li>Eavesdrop is the most direct confirmation method</li>
+    </ul>
+  </div>
+  <div class="sub-branch">
+    <h3><svg class="gicon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="8" stroke="#c44040" stroke-width="1.5"/><circle cx="9" cy="9" r="1.5" fill="#c44040" opacity=".8"/><circle cx="15" cy="9" r="1.5" fill="#c44040" opacity=".8"/><path d="M10 14l1 2 1-1 1 1 1-2" stroke="#c44040" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 18h8" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/><path d="M9 19.5h2m2 0h2" stroke="#c44040" stroke-width="1.5" stroke-linecap="round"/></svg> Survival Protection</h3>
+    <ul>
+      <li>Keep Gold > 0 to avoid forced discards</li>
+      <li>Keep Hand > 0 to avoid elimination</li>
+      <li>Use Guard at critical moments to block Dark Assassinate</li>
+    </ul>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 0;color:var(--dim);font-size:.85em">
+  <svg class="gicon" viewBox="0 0 24 24" fill="none"><path d="M3 8c0-3 4-6 9-6s9 3 9 6-4 6-9 6-9-3-9-6z" stroke="#8060c0" stroke-width="1.5"/><circle cx="8" cy="7" r="2" stroke="#8060c0" stroke-width="1"/><circle cx="16" cy="7" r="2" stroke="#8060c0" stroke-width="1"/><path d="M9 11c1 1 5 1 6 0" stroke="#8060c0" stroke-width="1.5" stroke-linecap="round"/><path d="M3 8c0 3 4 6 9 6s9-3 9-6" stroke="#8060c0" stroke-width="1.5"/><path d="M6 14l-3 8h5l1-4m10 4h5l-3-8-1 4" stroke="#8060c0" stroke-width="1.5" stroke-linejoin="round"/></svg> Shadow Council Shadow Council v4 · Game Manual
+</div>
+
+</div>
+
+<script>
+// TOC
+const secs=document.querySelectorAll('.branch[id]');
+const toc=document.getElementById('toc');
+secs.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.title=s.querySelector('h2')?.textContent||'';toc.appendChild(a)});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{const a=toc.querySelector(`a[href="#${e.target.id}"]`);if(a)a.classList.toggle('active',e.isIntersecting)})},{threshold:.3});
+secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
