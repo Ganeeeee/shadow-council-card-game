@@ -1,20 +1,28 @@
 ## 📸 Screenshots / 游戏截图
 
-### Title Screen / 标题界面
-![Title Screen](https://github.com/user-attachments/assets/94f5223c-5f24-463b-9b09-9ba48efaea1c)
+### 1. 标题界面 / Title Screen
+![Title Screen](https://github.com/user-attachments/assets/dbf40d0a-8922-4261-a5d6-e4514ffda459)
 
-### Identity Reveal / 身份揭示界面
-![Identity Screen](https://github.com/user-attachments/assets/f243047d-2470-4400-90e8-15cc085c2d72)
+### 2. 人数选择 / Player Setup
+![Player Setup](https://github.com/user-attachments/assets/5c49e89c-0555-4cb9-b81c-b2fc08ba77b7)
 
-### Gameplay / 游戏主界面
-![Gameplay](https://github.com/user-attachments/assets/d8764fc3-2f75-4652-b71a-fc11cdea285e)
+### 3. 指定玩家 / Pass Device
+![Pass Device](https://github.com/user-attachments/assets/6f75a0fa-b404-41c0-9b0c-31b5cc32dafe)
 
-### Guess Phase / 猜身份阶段
-![Guess Phase](https://github.com/user-attachments/assets/5de6ec05-3694-4b20-bfa4-288118eaf68a)
+### 4. 游戏主界面 / Game Main
+![Game Main](https://github.com/user-attachments/assets/e4b69ba4-e650-4904-b52e-795476e71681)
 
-### End Game / 游戏结束界面
-![End Game](https://github.com/user-attachments/assets/14c06016-9813-4633-a6ac-fac277b76ea9)
+### 5. AI 思考 / AI Thinking
+![AI Thinking](https://github.com/user-attachments/assets/b960046c-ca39-416a-8d42-71193d9ac391)
 
+### 6. 猜测身份 / Guess Phase
+![Guess Phase](https://github.com/user-attachments/assets/824aed62-8980-4b5b-8b39-8ff4cbd937d3)
+
+### 7. 回合事件 / Round Event
+![Round Event](https://github.com/user-attachments/assets/466fffe8-792b-456a-bf14-c76a1418c47d)
+
+### 8. 游戏结束 / End Game
+![End Game](https://github.com/user-attachments/assets/1ba4d617-91fa-43da-bd6c-fee8fb4c925c)
 A social deduction card game where you don't know your own identity. Playable in browser with AI opponents. Built with vanilla HTML/CSS/JS.
 # 🎭 Shadow Council / 暗影议会
 
