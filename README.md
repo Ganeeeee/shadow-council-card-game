@@ -28,7 +28,7 @@ A social deduction card game where you don't know your own identity. Playable in
 
 > A social deduction card game where you don't know your own identity. / 一款社交推理卡牌游戏，玩家不知道自己真正的阵营身份。
 
-[**Play Online / 在线试玩**](https://Ganeeeee.github.io/shadow-council-card-game/) | [**Game Manual / 游戏说明书**](./manual.html)
+[**Play Online / 在线试玩**](https://Ganeeeee.github.io/shadow-council-card-game/) | [**Game Manual / 游戏说明书**](https://Ganeeeee.github.io/shadow-council-card-game/manual.html)
 
 ---
 
